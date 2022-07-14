@@ -9,6 +9,7 @@ app = Flask(__name__)
 @app.route('/',methods=['GET'])  # route to display the home page
 @cross_origin()
 def homePage():
+    #folder name should be templates where index.html is kept, else we have to give complete path of index.html
     return render_template("index.html")
 
 @app.route('/review',methods=['POST','GET']) # route to show the review comments in a web UI
@@ -22,7 +23,9 @@ def index():
             flipkartPage = uClient.read()
             uClient.close()
             flipkart_html = bs(flipkartPage, "html.parser")
+            # print(flipkart_html)
             bigboxes = flipkart_html.findAll("div", {"class": "_1AtVbE col-12-12"})
+            print(bigboxes)
             del bigboxes[0:3]
             box = bigboxes[0]
             productLink = "https://www.flipkart.com" + box.div.div.div.a['href']
